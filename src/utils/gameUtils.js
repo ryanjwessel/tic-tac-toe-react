@@ -9,9 +9,9 @@ export const mapPossibleVictories = (coordinates) => {
     rowArr.forEach((selection, col) => {
       // Possible row victories
       rowSelections[row].push(selection);
+      // Possible column victories
+      colSelections[row].push(coordinates[col][row]);
       if (row === 0) {
-        // Possible column victories
-        colSelections[col].push(coordinates[col][row]);
         // Possible diagonal victories
         diagSelections[0].push(coordinates[col][col]);
         diagSelections[1].push(coordinates[col][coordinates.length - 1 - col]);
