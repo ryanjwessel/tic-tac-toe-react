@@ -13,11 +13,8 @@ export const SELECTION_PLAYER_MAPPING = {
  * Each coordinate represents the current selection for that space, which could be one of the
  * following values: null | SELECTION.X | SELECTION.O
  */
-export const NEW_GAME_COORDINATES = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
+export const getNewGameCoordinates = () =>
+  Array.from({ length: 3 }, () => Array.from({ length: 3 }, () => null));
 
 /**
  * Move count is a tuple that tracks the total number of moves per player.

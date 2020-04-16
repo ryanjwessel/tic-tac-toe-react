@@ -1,12 +1,14 @@
+import { SELECTION_PLAYER_MAPPING } from "../constants/defaults";
+
 export const mapPossibleVictories = (coordinates) => {
   // There are 8 possible victories. Three horizontal and vertical, and two diagonals.
   const rowSelections = [[], [], []];
   const colSelections = [[], [], []];
   const diagSelections = [[], []];
-  coordinates.map((row) => {
-    row.map((col) => {
+  coordinates.forEach((rowArr, row) => {
+    rowArr.forEach((selection, col) => {
       // Possible row victories
-      rowSelections[row].push(coordinates[row][col]);
+      rowSelections[row].push(selection);
       if (row === 0) {
         // Possible column victories
         colSelections[col].push(coordinates[col][row]);
