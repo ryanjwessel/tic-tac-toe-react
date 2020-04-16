@@ -17,7 +17,7 @@ const StyledGameBoard = styled.div`
 const GameBoard = ({ coordinates, handleSelection }) => {
   const selectSpace = (row, col) => {
     // Figure out how to determine who's turn it is.
-    handleSelection(row, col, SELECTION.X);
+    handleSelection(row, col);
   };
 
   return (

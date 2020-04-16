@@ -3,12 +3,14 @@ import {
   getNewGameCoordinates,
   NEW_GAME_MOVE_COUNT,
   SELECTION_PLAYER_MAPPING,
+  SELECTION,
 } from "../constants/defaults";
-import { getLeaderboard, saveLeaderboard } from "../utils/leaderboard";
+import { getLeaderboard, saveLeaderboard } from "../utils/leaderboardUtils";
 import {
   mapPossibleVictories,
   checkVictoryConditions,
-} from "../utils/gameService";
+} from "../utils/gameUtils";
+import Leaderboard from "./Leaderboard";
 import GameBoard from "./GameBoard";
 
 const GameContainer = () => {
@@ -69,18 +71,25 @@ const GameContainer = () => {
     setMoveCountPerPlayer(newMoveCount);
   };
 
-  const handleSelection = (row, col, selection) => {
+  const handleSelection = (row, col) => {
     if (coordinates[row][col] !== null) {
       return false;
     }
     const newCoordinates = [...coordinates];
+    const selection =
+      moveCountPerPlayer[0] === moveCountPerPlayer[1]
+        ? SELECTION.X
+        : SELECTION.O;
     newCoordinates[row][col] = selection;
     setCoordinates(newCoordinates);
     updatePlayerMoveCount(selection);
   };
 
   return (
-    <GameBoard coordinates={coordinates} handleSelection={handleSelection} />
+    <>
+      <Leaderboard leaderboard={leaderboard} />
+      <GameBoard coordinates={coordinates} handleSelection={handleSelection} />
+    </>
   );
 };
 
