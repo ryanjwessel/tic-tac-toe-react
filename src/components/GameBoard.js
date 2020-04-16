@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import GameSpace from "./GameSpace";
-import { SELECTION } from "../constants/defaults";
 
 const StyledGameBoard = styled.div`
   min-width: 300px;
