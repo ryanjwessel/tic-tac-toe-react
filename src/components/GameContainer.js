@@ -15,6 +15,7 @@ import GameBoard from "./GameBoard";
 
 const GameContainer = () => {
   // GAME STATE
+  const [isGameActive, setGameActive] = useState(true);
   const [coordinates, setCoordinates] = useState(() => {
     const initialCoordinates = getNewGameCoordinates();
     return initialCoordinates;
@@ -22,6 +23,9 @@ const GameContainer = () => {
   const [moveCountPerPlayer, setMoveCountPerPlayer] = useState(
     NEW_GAME_MOVE_COUNT
   );
+  const [winner, setWinner] = useState(null);
+  const isGameWinnable = moveCountPerPlayer[0] >= 3;
+  const isGameTied = moveCountPerPlayer[0] === 5;
 
   const resetGameState = () => {
     // Reset coordinates and move counts when a game ends.
@@ -35,36 +39,44 @@ const GameContainer = () => {
     return initialLeaderboard;
   });
 
-  // Save Leaderboard in localStorage anytime leaderboard is updated.
   useEffect(() => {
     saveLeaderboard(leaderboard);
   }, [leaderboard]);
 
   // GAME LOGIC
+
+  // useEffect(() => {
+  //   if (isGameActive && isGameWinnable) {
+
+  //   }
+  // }, [isGameActive, isGameWinnable]);
   // Run this effect each time the move count updates to determine if the game has been won.
   useEffect(() => {
     // Only bother checking victory conditions if at least 3 moves have been made by Player 1.
-    if (moveCountPerPlayer[0] >= 3) {
+    if (isGameActive && isGameWinnable) {
       const possibleVictories = mapPossibleVictories(coordinates);
       const [isGameWon, winningPlayer] = checkVictoryConditions(
         possibleVictories
       );
 
       const newLeaderboard = [...leaderboard];
+      if (isGameWon || isGameTied) {
+        setGameActive(false);
+      }
       if (isGameWon) {
+        setWinner(winningPlayer);
         const winningPlayerIndex = winningPlayer - 1;
         newLeaderboard[winningPlayerIndex] += 1;
         setLeaderboard(newLeaderboard);
-        resetGameState();
-      } else if (moveCountPerPlayer[0] === 5) {
+      } else if (isGameTied) {
         // Player 1 has made 5 moves without winning. Meaning, the board is filled and the game is a tie.
         newLeaderboard[2] += 1;
         setLeaderboard(newLeaderboard);
-        resetGameState();
       }
     }
-  }, [coordinates, moveCountPerPlayer, leaderboard]);
+  }, [isGameActive, isGameWinnable, coordinates, isGameTied, leaderboard]);
 
+  // Handlers
   const updatePlayerMoveCount = (selection) => {
     const newMoveCount = [...moveCountPerPlayer];
     newMoveCount[SELECTION_PLAYER_MAPPING[selection] - 1] += 1;
@@ -88,7 +100,12 @@ const GameContainer = () => {
   return (
     <>
       <Leaderboard leaderboard={leaderboard} />
-      <GameBoard coordinates={coordinates} handleSelection={handleSelection} />
+      <GameBoard
+        coordinates={coordinates}
+        handleSelection={handleSelection}
+        isGameOver={!isGameActive}
+        winner={winner}
+      />
     </>
   );
 };
