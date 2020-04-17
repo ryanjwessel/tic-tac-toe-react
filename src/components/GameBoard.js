@@ -12,6 +12,7 @@ const StyledGameBoard = styled.div`
   max-height: 75vh;
   display: flex;
   flex-wrap: wrap;
+  margin: 0 auto 2rem;
 `;
 
 const StyledResultModal = styled.div`
@@ -39,7 +40,13 @@ const StyledResultModal = styled.div`
   }
 `;
 
-const GameBoard = ({ coordinates, handleSelection, isGameOver, winner }) => {
+const GameBoard = ({
+  coordinates,
+  handleSelection,
+  isGameOver,
+  winner,
+  startNewGame,
+}) => {
   const selectSpace = (row, col) => {
     // Figure out how to determine who's turn it is.
     handleSelection(row, col);
@@ -68,7 +75,9 @@ const GameBoard = ({ coordinates, handleSelection, isGameOver, winner }) => {
         <StyledResultModal>
           <p>GAME OVER</p>
           <p>{getGameResult()}</p>
-          <button type="button">Play Again?</button>
+          <button type="button" onClick={startNewGame}>
+            Play Again?
+          </button>
         </StyledResultModal>
       )}
     </StyledGameBoard>

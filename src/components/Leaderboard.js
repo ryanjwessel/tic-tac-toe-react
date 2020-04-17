@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledLeaderboard = styled.div`
-  min-width: 300px;
-  width: 90vw;
   text-align: center;
   margin-bottom: 1rem;
 
@@ -28,7 +26,8 @@ const Leaderboard = ({ leaderboard }) => {
       <h2>Leaderboard</h2>
       <div className="leaderboard-count-wrapper">
         <div className="leaderboard-count">
-          <div>Player 1 (O)</div>
+          {/* TODO: Figure out a nice way of linking player number to X/O. */}
+          <div>Player 1 (X)</div>
           <div>{leaderboard[0]}</div>
         </div>
         <div className="leaderboard-count">
@@ -36,7 +35,7 @@ const Leaderboard = ({ leaderboard }) => {
           <div>{leaderboard[2]}</div>
         </div>
         <div className="leaderboard-count">
-          <div>Player 2 (X)</div>
+          <div>Player 2 (O)</div>
           <div>{leaderboard[1]}</div>
         </div>
       </div>

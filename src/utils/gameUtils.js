@@ -23,7 +23,7 @@ export const mapPossibleVictories = (coordinates) => {
 };
 
 export const checkVictoryConditions = (possibleVictories) => {
-  let winningPlayer;
+  let winningPlayer = null;
 
   const isGameWon = possibleVictories.some((selections) => {
     return selections.every((coordinate) => {

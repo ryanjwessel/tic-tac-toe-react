@@ -29,6 +29,7 @@ const GameContainer = () => {
 
   const resetGameState = () => {
     // Reset coordinates and move counts when a game ends.
+    setGameActive(true);
     setCoordinates(getNewGameCoordinates());
     setMoveCountPerPlayer(NEW_GAME_MOVE_COUNT);
   };
@@ -44,12 +45,6 @@ const GameContainer = () => {
   }, [leaderboard]);
 
   // GAME LOGIC
-
-  // useEffect(() => {
-  //   if (isGameActive && isGameWinnable) {
-
-  //   }
-  // }, [isGameActive, isGameWinnable]);
   // Run this effect each time the move count updates to determine if the game has been won.
   useEffect(() => {
     // Only bother checking victory conditions if at least 3 moves have been made by Player 1.
@@ -64,14 +59,15 @@ const GameContainer = () => {
         setGameActive(false);
       }
       if (isGameWon) {
-        setWinner(winningPlayer);
         const winningPlayerIndex = winningPlayer - 1;
         newLeaderboard[winningPlayerIndex] += 1;
         setLeaderboard(newLeaderboard);
+        setWinner(winningPlayer);
       } else if (isGameTied) {
         // Player 1 has made 5 moves without winning. Meaning, the board is filled and the game is a tie.
         newLeaderboard[2] += 1;
         setLeaderboard(newLeaderboard);
+        setWinner(null);
       }
     }
   }, [isGameActive, isGameWinnable, coordinates, isGameTied, leaderboard]);
@@ -88,10 +84,8 @@ const GameContainer = () => {
       return false;
     }
     const newCoordinates = [...coordinates];
-    const selection =
-      moveCountPerPlayer[0] === moveCountPerPlayer[1]
-        ? SELECTION.X
-        : SELECTION.O;
+    const isPlayerOnesTurn = moveCountPerPlayer[0] === moveCountPerPlayer[1];
+    const selection = isPlayerOnesTurn ? SELECTION.X : SELECTION.O;
     newCoordinates[row][col] = selection;
     setCoordinates(newCoordinates);
     updatePlayerMoveCount(selection);
@@ -105,6 +99,7 @@ const GameContainer = () => {
         handleSelection={handleSelection}
         isGameOver={!isGameActive}
         winner={winner}
+        startNewGame={resetGameState}
       />
     </>
   );
