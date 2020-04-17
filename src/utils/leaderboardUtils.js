@@ -3,6 +3,9 @@ import {
   NEW_LEADERBOARD,
 } from "../constants/defaults";
 
+/**
+ * Gets the leaderboard from localStorage, and if there isn't one it returns a NEW_LEADER_BOARD array.
+ */
 export const getLeaderboard = () => {
   const storedLeaderboard = localStorage.getItem(LEADERBOARD_STORAGE_KEY);
   if (storedLeaderboard == null) {
@@ -17,6 +20,10 @@ export const getLeaderboard = () => {
   }
 };
 
+/**
+ * Saves the leaderboard to localStorage.
+ * @param {array} leaderboard
+ */
 export const saveLeaderboard = (leaderboard) => {
   localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(leaderboard));
 };
