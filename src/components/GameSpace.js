@@ -6,8 +6,12 @@ const StyledGameSpace = styled.div`
   min-width: 100px;
   min-height: 100px;
   height: 33%;
-  max-width: 25vh;
   outline: 1px solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
 `;
 
 const GameSpace = ({ selection, selectSpace }) => {
